@@ -6,10 +6,6 @@ Assignment: 4
 
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
-
-#define MAX_LENGTH 80
-
 
 /***************************
 ******** Menu Items ********
@@ -39,7 +35,7 @@ Assignment: 4
 
 
 /***************************
-* USER INTEFACE PROTOTYPES *
+* USER INTERFACE PROTOTYPES *
 ****************************/
 
 void task1ReversePhrase();
@@ -89,8 +85,7 @@ void printSudoku(int[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]);
 
 int main() {
     int task;
-    do
-    {
+    do {
         printf("Please choose a task (1-5) or 6 to exit:\n");
         printf("%d. Reverse a phrase\n", REVERSE);
         printf("%d. Check Palindrome\n", PALINDROME);
@@ -179,42 +174,33 @@ void task4SolveZipBoard() {
     int highest=0;
     printf("Please enter the board size:\n");
     scanf("%d", &size);
-    if (size < 1 || size > ZIP_MAX_GRID_SIZE)
-    {
+    if (size < 1 || size > ZIP_MAX_GRID_SIZE) {
         printf("Invalid board size.\n");
         return;
     }
 
     printf("Please enter the grid:\n");
-    for (int i = 0; i < size; i++)
-    {
-        for (int j = 0; j < size; j++)
-        {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
             scanf("%d", &board[i][j]);
-            if (board[i][j] == 1)
-            {
+            if (board[i][j] == 1) {
                 row = i;
                 col = j;
             }
-            if(board[i][j]>highest){
+            if (board[i][j]>highest) {
                 highest=board[i][j];
             }
         }
     }
-    if (task4SolveZipBoardImplementation(board, solution, size, row, col, highest))
-    {
+    if (task4SolveZipBoardImplementation(board, solution, size, row, col, highest)) {
         printf("Solution:\n");
-        for (int i = 0; i < size; i++)
-        {
-            for (int j = 0; j < size; j++)
-            {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 printf("%c ", solution[i][j] ? solution[i][j] : 'X');
             }
             printf("\n");
         }
-    }
-    else
-    {
+    } else {
         printf("No solution exists.\n");
     }
 }
@@ -223,20 +209,15 @@ void task4SolveZipBoard() {
 void task5SolveSudoku() {
     printf("Please enter the sudoku board:\n");
     int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE] = {0};
-    for (int i = 0; i < SUDOKU_GRID_SIZE; i++)
-    {
-        for (int j = 0; j < SUDOKU_GRID_SIZE; j++)
-        {
+    for (int i = 0; i < SUDOKU_GRID_SIZE; i++) {
+        for (int j = 0; j < SUDOKU_GRID_SIZE; j++) {
             scanf("%d", &board[i][j]);
         }
     }
-    if (task5SolveSudokuImplementation(board))
-    {
+    if (task5SolveSudokuImplementation(board)) {
         printf("Solution found:\n");
         printSudoku(board);
-    }
-    else
-    {
+    } else {
         printf("No solution exists.\n");
     }
 }
@@ -250,7 +231,7 @@ int readTerms(char terms[][LONGEST_TERM+1], int maxNumOfTerms, char type[]) {
     int termsCount;
     printf("Please insert number of %s:\n", type);
     scanf("%d", &termsCount);
-    if(termsCount < 1 || termsCount > maxNumOfTerms){
+    if(termsCount < 1 || termsCount > maxNumOfTerms) {
         termsCount = maxNumOfTerms;
     }
     printf("Please insert the list of %s:\n", type);
@@ -264,11 +245,9 @@ int readTerms(char terms[][LONGEST_TERM+1], int maxNumOfTerms, char type[]) {
 
 void printSudoku(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]) {
     printf("+-------+-------+-------+\n");
-    for (int i = 0; i < SUDOKU_GRID_SIZE; i++)
-    {
+    for (int i = 0; i < SUDOKU_GRID_SIZE; i++) {
         printf("| ");
-        for (int j = 0; j < SUDOKU_GRID_SIZE; j++)
-        {
+        for (int j = 0; j < SUDOKU_GRID_SIZE; j++) {
             if (board[i][j] == 0)
                 printf(". ");
             printf("%d ", board[i][j]);
