@@ -32,16 +32,51 @@ Assignment: 4
 #define SUDOKU_GRID_SIZE 9
 #define SUDOKU_SUBGRID_SIZE 3
 #define GRID_START 0
+#define SUDOKU_MIN_VALUE 1
+#define SUDOKU_MAX_VALUE 9
 
 
 /***************************
 * USER INTERFACE PROTOTYPES *
 ****************************/
 
+/**
+ * @brief User interface for Task 1: Reverse a phrase
+ * 
+ * Prompts the user to enter a phrase and displays its reversed version.
+ */
 void task1ReversePhrase();
+
+/**
+ * @brief User interface for Task 2: Check if a phrase is a palindrome
+ * 
+ * Prompts the user for the phrase length and the phrase itself,
+ * then checks and displays whether it is a palindrome.
+ */
 void task2CheckPalindrome();
+
+/**
+ * @brief User interface for Task 3: Generate sentences from word lists
+ * 
+ * Prompts the user for lists of subjects, verbs, and objects,
+ * then generates and displays all possible sentence combinations.
+ */
 void task3GenerateSentences();
+
+/**
+ * @brief User interface for Task 4: Solve a Zip Board puzzle
+ * 
+ * Prompts the user for the board size and grid values,
+ * then attempts to solve the Zip Board and displays the solution.
+ */
 void task4SolveZipBoard();
+
+/**
+ * @brief User interface for Task 5: Solve a Sudoku puzzle
+ * 
+ * Prompts the user to enter a Sudoku board,
+ * then attempts to solve it and displays the solution.
+ */
 void task5SolveSudoku();
 
 
@@ -49,24 +84,202 @@ void task5SolveSudoku();
 * IMPLEMENTATION PROTOTYPES *
 *****************************/
 
+/**
+ * @brief Implementation of Task 1: Recursively reads and reverses a phrase
+ * 
+ * Reads characters from stdin one by one until newline is encountered.
+ * Upon unwinding, prints the characters in reverse order.
+ */
 void task1ReversePhraseImplementation();
+
+/**
+ * @brief Implementation of Task 2: Recursively checks if a phrase is a palindrome
+ * 
+ * @param length The length of the phrase to check
+ * @return 1 if the phrase is a palindrome, 0 otherwise
+ * 
+ * Recursively reads characters from stdin and compares first and last characters
+ * at each level of recursion.
+ */
 int task2CheckPalindromeImplementation(int);
+
+/**
+ * @brief Implementation of Task 3: Generates all possible sentence combinations
+ * 
+ * @param subjects 2D array of subject strings
+ * @param subjectsCount Number of subjects
+ * @param verbs 2D array of verb strings
+ * @param verbsCount Number of verbs
+ * @param objects 2D array of object strings
+ * @param objectsCount Number of objects
+ * 
+ * Uses recursion to generate and print all possible combinations of
+ * subject + verb + object.
+ */
 void task3GenerateSentencesImplementation(char[][LONGEST_TERM+1], int, char[][LONGEST_TERM+1], int,
                                             char[][LONGEST_TERM+1], int);
+
+/**
+ * @brief Recursive helper function to print sentences
+ * 
+ * @param subjects 2D array of subject strings
+ * @param subjectsCount Number of subjects
+ * @param verbs 2D array of verb strings
+ * @param verbsCount Number of verbs
+ * @param objects 2D array of object strings
+ * @param objectsCount Number of objects
+ * @param printed Number of sentences printed so far
+ * 
+ * Recursively generates sentences by calculating which subject, verb,
+ * and object to use based on the number of sentences already printed.
+ */
 void sentencePrinter(char[][LONGEST_TERM+1], int, char[][LONGEST_TERM+1], int,
                                             char[][LONGEST_TERM+1], int, int);
+
+/**
+ * @brief Implementation of Task 4: Solves a Zip Board puzzle
+ * 
+ * @param board The input board with numbered cells
+ * @param solution The output solution board with directions (U/D/L/R)
+ * @param size The size of the board (size x size)
+ * @param startR Starting row position
+ * @param startC Starting column position
+ * @param highest The highest number on the board
+ * @return 1 if solution found, 0 otherwise
+ * 
+ * Initializes the solving process and calls the recursive solver.
+ */
 int task4SolveZipBoardImplementation(int[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE],
                                             char[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE], int, int, int, int);
+
+/**
+ * @brief Recursive function to solve the Zip Board using backtracking
+ * 
+ * @param board The input board with numbered cells
+ * @param solution The solution board being constructed
+ * @param size Board size
+ * @param startR Current row position
+ * @param startC Current column position
+ * @param highest Highest number on the board
+ * @param nextNumber Next required number to visit
+ * @param currentStep Current step number in the path
+ * @return 1 if solution found from this position, 0 otherwise
+ * 
+ * Tries all four directions (U/D/L/R) recursively with backtracking
+ * to find a valid path that visits all cells in order.
+ */
 int solveZipBoardLoop(int board[][ZIP_MAX_GRID_SIZE], char solution[][ZIP_MAX_GRID_SIZE], int, 
                                             int, int, int, int, int);
+
+/**
+ * @brief Validates the current position in the Zip Board
+ * 
+ * @param board The input board
+ * @param solution The solution board
+ * @param size Board size
+ * @param startR Row to check
+ * @param startC Column to check
+ * @param nextNumber Expected next number
+ * @return 1 if position is invalid, 0 if valid
+ * 
+ * Checks for out-of-bounds, already visited cells, and incorrect numbers.
+ */
 int raisePositionErrors(int board[][ZIP_MAX_GRID_SIZE], char solution[][ZIP_MAX_GRID_SIZE], int, int, int, int);
+
+/**
+ * @brief Implementation of Task 5: Solves a Sudoku puzzle
+ * 
+ * @param board The Sudoku board (9x9) with 0 for empty cells
+ * @return 1 if solution found, 0 otherwise
+ * 
+ * Initializes the solving process starting from position (0,0).
+ */
 int task5SolveSudokuImplementation(int[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]);
+
+/**
+ * @brief Recursive function to solve Sudoku using backtracking
+ * 
+ * @param board The Sudoku board being solved
+ * @param row Current row position
+ * @param col Current column position
+ * @return 1 if solution found, 0 otherwise
+ * 
+ * Iterates through cells, attempting to fill empty cells with valid numbers.
+ */
 int solveSudokuLoop(int[][SUDOKU_GRID_SIZE], int, int);
+
+/**
+ * @brief Tries all possible numbers (1-9) for a Sudoku cell
+ * 
+ * @param board The Sudoku board
+ * @param row Row of the cell
+ * @param col Column of the cell
+ * @param num Starting number to try
+ * @return 1 if a valid number leads to a solution, 0 otherwise
+ * 
+ * Recursively tries each number from num to 9.
+ */
 int tryAllNumbers(int[][SUDOKU_GRID_SIZE], int, int, int);
+
+/**
+ * @brief Attempts to place a specific number in a Sudoku cell
+ * 
+ * @param board The Sudoku board
+ * @param row Row of the cell
+ * @param col Column of the cell
+ * @param num Number to try placing
+ * @return 1 if placing this number leads to a solution, 0 otherwise
+ * 
+ * Checks legality, places the number, continues solving, and backtracks if needed.
+ */
 int tryNumber(int[][SUDOKU_GRID_SIZE], int, int, int);
+
+/**
+ * @brief Checks if a number can be legally placed in a Sudoku cell
+ * 
+ * @param board The Sudoku board
+ * @param row Row of the cell
+ * @param col Column of the cell
+ * @param num Number to check
+ * @return 1 if legal, 0 if illegal
+ * 
+ * Verifies the number doesn't already exist in the same row, column, or 3x3 subgrid.
+ */
 int isNumberLegal(int[][SUDOKU_GRID_SIZE], int, int, int);
+
+/**
+ * @brief Recursively checks if a number exists in a given row
+ * 
+ * @param board The Sudoku board
+ * @param row Row to check
+ * @param col Starting column
+ * @param num Number to search for
+ * @return 1 if number found in row, 0 otherwise
+ */
 int numberOnRow(int[][SUDOKU_GRID_SIZE], int, int, int);
+
+/**
+ * @brief Recursively checks if a number exists in a given column
+ * 
+ * @param board The Sudoku board
+ * @param row Starting row
+ * @param col Column to check
+ * @param num Number to search for
+ * @return 1 if number found in column, 0 otherwise
+ */
 int numberOnCol(int[][SUDOKU_GRID_SIZE], int, int, int);
+
+/**
+ * @brief Recursively checks if a number exists in a 3x3 subgrid
+ * 
+ * @param board The Sudoku board
+ * @param row Current row in subgrid
+ * @param col Current column in subgrid
+ * @param startRow Starting row of the subgrid
+ * @param startCol Starting column of the subgrid
+ * @param num Number to search for
+ * @return 1 if number found in subgrid, 0 otherwise
+ */
 int numberInSubgrid(int[][SUDOKU_GRID_SIZE], int, int, int, int, int);
 
 
@@ -74,7 +287,27 @@ int numberInSubgrid(int[][SUDOKU_GRID_SIZE], int, int, int, int, int);
 * HELPER FUNCTIONS PROTOTYPES *
 *******************************/
 
-int readTerms(char[][LONGEST_TERM+1], int, char[]);
+/**
+ * @brief Reads a list of terms from the user
+ * 
+ * @param terms 2D array to store the terms
+ * @param maxNumOfTerms Maximum number of terms allowed
+ * @param type Description of term type (e.g., "subjects", "verbs")
+ * @return The actual number of terms read
+ * 
+ * Prompts the user for the number of terms and then reads each term.
+ * Validates that the count is within valid range.
+ */
+int readTerms(char[][LONGEST_TERM+1], int, const char[]);
+
+/**
+ * @brief Prints a Sudoku board in a formatted grid
+ * 
+ * @param board The Sudoku board to print (9x9)
+ * 
+ * Displays the board with proper grid lines separating 3x3 subgrids.
+ * Empty cells (0) are shown as dots followed by spaces.
+ */
 void printSudoku(int[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]);
 
 
@@ -83,6 +316,15 @@ void printSudoku(int[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]);
 ********** MAIN MENU **********
 *******************************/
 
+/**
+ * @brief Main function - displays menu and handles user task selection
+ * 
+ * @return 0 on successful completion
+ * 
+ * Presents a menu of 5 tasks plus an exit option.
+ * Loops until user chooses to exit.
+ * Each task is implemented using recursive functions.
+ */
 int main() {
     int task;
     do {
@@ -170,7 +412,7 @@ void task4SolveZipBoard() {
     int size;
     int board[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE] = {0};
     char solution[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE] = {0};
-    int row, col;
+    int row=0, col=0; // previously: int row, col;
     int highest=0;
     printf("Please enter the board size:\n");
     scanf("%d", &size);
@@ -227,7 +469,7 @@ void task5SolveSudoku() {
 ********* HELPERS **********
 ****************************/
 
-int readTerms(char terms[][LONGEST_TERM+1], int maxNumOfTerms, char type[]) {
+int readTerms(char terms[][LONGEST_TERM+1], int maxNumOfTerms, const char type[]) { // added const to type
     int termsCount;
     printf("Please insert number of %s:\n", type);
     scanf("%d", &termsCount);
@@ -262,7 +504,7 @@ void printSudoku(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]) {
 }
 
 /***************************
-*********** TODO ***********
+******* IMPLEMENTATION ******
 ****************************/
 
 
@@ -422,7 +664,7 @@ int solveSudokuLoop(int board[][SUDOKU_GRID_SIZE], int row, int col) {
     If cell is empty, iterate through all possible numbers and try to place them in the cell.
     In such case, next recursive calls are handled inside tryAllNumbers. */
     if (board[row][col] == 0) {
-        return tryAllNumbers(board, row, col, 1);
+        return tryAllNumbers(board, row, col, SUDOKU_MIN_VALUE);
     // if cell is not empty, move to next cell and continue solving
     } else {
         if (++col >= SUDOKU_GRID_SIZE) {
@@ -438,7 +680,7 @@ int tryAllNumbers(int board[][SUDOKU_GRID_SIZE], int row, int col, int num) {
     Recursion continues for every possible number (inside tryNumber).
     Returns 1 if solution found, 0 otherwise.    
     Base case: if num is past the last valid number, return failure */
-    if (num > SUDOKU_GRID_SIZE) {
+    if (num > SUDOKU_MAX_VALUE) {
         return 0;
     }
     /* Recursive case: try current number (if num is legal, try to place it and continue solving
@@ -459,7 +701,7 @@ int tryNumber(int board[][SUDOKU_GRID_SIZE], int row, int col, int num) {
     Check legality using isNumberLegal() and position number. */
     if (isNumberLegal(board, row, col, num)) {
         board[row][col] = num;
-        // move to next cell
+        // move to next cell, preserving row/col values for backtracking in case of failure
         int nextRow = row;
         int nextCol = col + 1;
         if (nextCol >= SUDOKU_GRID_SIZE) {
