@@ -117,6 +117,7 @@ int task2CheckPalindromeImplementation(int);
  * subject + verb + object.
  */
 void task3GenerateSentencesImplementation(char[][LONGEST_TERM+1], int, char[][LONGEST_TERM+1], int,
+                                           
                                             char[][LONGEST_TERM+1], int);
 
 /**
@@ -150,6 +151,7 @@ void sentencePrinter(char[][LONGEST_TERM+1], int, char[][LONGEST_TERM+1], int,
  * Initializes the solving process and calls the recursive solver.
  */
 int task4SolveZipBoardImplementation(int[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE],
+                                       
                                             char[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE], int, int, int, int);
 
 /**
