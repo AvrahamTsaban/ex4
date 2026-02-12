@@ -1,6 +1,5 @@
 /******************
 Name:Avraham Tsaban
-ID: 207088733
 Assignment: 4
 *******************/
 
@@ -24,7 +23,6 @@ Assignment: 4
 ****************************/
 
 #define LONGEST_TERM 20
-#define LONGEST_SENTENCE 62
 #define MAX_NUMBER_OF_TERMS 10
 
 #define ZIP_MAX_GRID_SIZE 20
@@ -101,7 +99,7 @@ void task1ReversePhraseImplementation();
  * Recursively reads characters from stdin and compares first and last characters
  * at each level of recursion.
  */
-int task2CheckPalindromeImplementation(int);
+int task2CheckPalindromeImplementation(int length);
 
 /**
  * @brief Implementation of Task 3: Generates all possible sentence combinations
@@ -116,9 +114,7 @@ int task2CheckPalindromeImplementation(int);
  * Uses recursion to generate and print all possible combinations of
  * subject + verb + object.
  */
-void task3GenerateSentencesImplementation(char[][LONGEST_TERM+1], int, char[][LONGEST_TERM+1], int,
-                                           
-                                            char[][LONGEST_TERM+1], int);
+void task3GenerateSentencesImplementation(char subjects[][LONGEST_TERM+1], int subjectsCount, char verbs[][LONGEST_TERM+1], int verbsCount, char objects[][LONGEST_TERM+1], int objectsCount);
 
 /**
  * @brief Recursive helper function to print sentences
@@ -134,8 +130,7 @@ void task3GenerateSentencesImplementation(char[][LONGEST_TERM+1], int, char[][LO
  * Recursively generates sentences by calculating which subject, verb,
  * and object to use based on the number of sentences already printed.
  */
-void sentencePrinter(char[][LONGEST_TERM+1], int, char[][LONGEST_TERM+1], int,
-                                            char[][LONGEST_TERM+1], int, int);
+void sentencePrinter(char subjects[][LONGEST_TERM+1], int subjectsCount, char verbs[][LONGEST_TERM+1], int verbsCount, char objects[][LONGEST_TERM+1], int objectsCount, int printed);
 
 /**
  * @brief Implementation of Task 4: Solves a Zip Board puzzle
@@ -150,8 +145,7 @@ void sentencePrinter(char[][LONGEST_TERM+1], int, char[][LONGEST_TERM+1], int,
  * 
  * Initializes the solving process and calls the recursive solver.
  */
-int task4SolveZipBoardImplementation(int[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE],
-                                            char[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE], int, int, int, int);
+int task4SolveZipBoardImplementation(int board[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE], char solution[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE], int size, int startR, int startC, int highest);
 
 /**
  * @brief Recursive function to solve the Zip Board using backtracking
@@ -169,8 +163,7 @@ int task4SolveZipBoardImplementation(int[ZIP_MAX_GRID_SIZE][ZIP_MAX_GRID_SIZE],
  * Tries all four directions (U/D/L/R) recursively with backtracking
  * to find a valid path that visits all cells in order.
  */
-int solveZipBoardLoop(int board[][ZIP_MAX_GRID_SIZE], char solution[][ZIP_MAX_GRID_SIZE], int, 
-                                            int, int, int, int, int);
+int solveZipBoardLoop(int board[][ZIP_MAX_GRID_SIZE], char solution[][ZIP_MAX_GRID_SIZE], int size, int startR, int startC, int highest, int nextNumber, int currentStep);
 
 /**
  * @brief Validates the current position in the Zip Board
@@ -185,7 +178,7 @@ int solveZipBoardLoop(int board[][ZIP_MAX_GRID_SIZE], char solution[][ZIP_MAX_GR
  * 
  * Checks for out-of-bounds, already visited cells, and incorrect numbers.
  */
-int raisePositionErrors(int board[][ZIP_MAX_GRID_SIZE], char solution[][ZIP_MAX_GRID_SIZE], int, int, int, int);
+int raisePositionErrors(int board[][ZIP_MAX_GRID_SIZE], char solution[][ZIP_MAX_GRID_SIZE], int size, int startR, int startC, int nextNumber);
 
 /**
  * @brief Implementation of Task 5: Solves a Sudoku puzzle
@@ -195,7 +188,7 @@ int raisePositionErrors(int board[][ZIP_MAX_GRID_SIZE], char solution[][ZIP_MAX_
  * 
  * Initializes the solving process starting from position (0,0).
  */
-int task5SolveSudokuImplementation(int[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]);
+int task5SolveSudokuImplementation(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]);
 
 /**
  * @brief Recursive function to solve Sudoku using backtracking
@@ -207,7 +200,7 @@ int task5SolveSudokuImplementation(int[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]);
  * 
  * Iterates through cells, attempting to fill empty cells with valid numbers.
  */
-int solveSudokuLoop(int[][SUDOKU_GRID_SIZE], int, int);
+int solveSudokuLoop(int board[][SUDOKU_GRID_SIZE], int row, int col);
 
 /**
  * @brief Tries all possible numbers (1-9) for a Sudoku cell
@@ -220,7 +213,7 @@ int solveSudokuLoop(int[][SUDOKU_GRID_SIZE], int, int);
  * 
  * Recursively tries each number from num to 9.
  */
-int tryAllNumbers(int[][SUDOKU_GRID_SIZE], int, int, int);
+int tryAllNumbers(int board[][SUDOKU_GRID_SIZE], int row, int col, int num);
 
 /**
  * @brief Attempts to place a specific number in a Sudoku cell
@@ -233,7 +226,7 @@ int tryAllNumbers(int[][SUDOKU_GRID_SIZE], int, int, int);
  * 
  * Checks legality, places the number, continues solving, and backtracks if needed.
  */
-int tryNumber(int[][SUDOKU_GRID_SIZE], int, int, int);
+int tryNumber(int board[][SUDOKU_GRID_SIZE], int row, int col, int num);
 
 /**
  * @brief Checks if a number can be legally placed in a Sudoku cell
@@ -246,7 +239,7 @@ int tryNumber(int[][SUDOKU_GRID_SIZE], int, int, int);
  * 
  * Verifies the number doesn't already exist in the same row, column, or 3x3 subgrid.
  */
-int isNumberLegal(int[][SUDOKU_GRID_SIZE], int, int, int);
+int isNumberLegal(int board[][SUDOKU_GRID_SIZE], int row, int col, int num);
 
 /**
  * @brief Recursively checks if a number exists in a given row
@@ -257,7 +250,7 @@ int isNumberLegal(int[][SUDOKU_GRID_SIZE], int, int, int);
  * @param num Number to search for
  * @return 1 if number found in row, 0 otherwise
  */
-int numberOnRow(int[][SUDOKU_GRID_SIZE], int, int, int);
+int numberOnRow(int board[][SUDOKU_GRID_SIZE], int row, int col, int num);
 
 /**
  * @brief Recursively checks if a number exists in a given column
@@ -268,7 +261,7 @@ int numberOnRow(int[][SUDOKU_GRID_SIZE], int, int, int);
  * @param num Number to search for
  * @return 1 if number found in column, 0 otherwise
  */
-int numberOnCol(int[][SUDOKU_GRID_SIZE], int, int, int);
+int numberOnCol(int board[][SUDOKU_GRID_SIZE], int row, int col, int num);
 
 /**
  * @brief Recursively checks if a number exists in a 3x3 subgrid
@@ -281,7 +274,7 @@ int numberOnCol(int[][SUDOKU_GRID_SIZE], int, int, int);
  * @param num Number to search for
  * @return 1 if number found in subgrid, 0 otherwise
  */
-int numberInSubgrid(int[][SUDOKU_GRID_SIZE], int, int, int, int, int);
+int numberInSubgrid(int board[][SUDOKU_GRID_SIZE], int row, int col, int startRow, int startCol, int num);
 
 
 /******************************
@@ -299,7 +292,7 @@ int numberInSubgrid(int[][SUDOKU_GRID_SIZE], int, int, int, int, int);
  * Prompts the user for the number of terms and then reads each term.
  * Validates that the count is within valid range.
  */
-int readTerms(char[][LONGEST_TERM+1], int, const char[]);
+int readTerms(char terms[][LONGEST_TERM+1], int maxNumOfTerms, const char type[]);
 
 /**
  * @brief Prints a Sudoku board in a formatted grid
@@ -309,8 +302,24 @@ int readTerms(char[][LONGEST_TERM+1], int, const char[]);
  * Displays the board with proper grid lines separating 3x3 subgrids.
  * Empty cells (0) are shown as dots followed by spaces.
  */
-void printSudoku(int[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]);
+void printSudoku(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]);
 
+/**
+ * @brief Reads an integer from the user with error checking
+ * 
+ * @param errorMessage Message to display if input is invalid
+ * @return The integer value read from the user
+ * 
+ * Continuously prompts the user until a valid integer is entered.
+ */
+int readIntChecked(const char errorMessage[]);
+
+/**
+ * @brief Discards the rest of the current input line
+ * 
+ * Uses recursion to consume characters until a newline is encountered.
+ */
+void discardLineRec();
 
 
 /******************************
@@ -327,7 +336,7 @@ void printSudoku(int[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]);
  * Each task is implemented using recursive functions.
  */
 int main() {
-    int task;
+    int task = 0;
     do {
         printf("Please choose a task (1-5) or 6 to exit:\n");
         printf("%d. Reverse a phrase\n", REVERSE);
@@ -337,8 +346,14 @@ int main() {
         printf("%d. Solve Sudoku\n", SUDOKU);
         printf("%d. Exit\n", EXIT);
 
-        scanf(" %d", &task);
-        scanf("%*c");
+        int result = 0;
+        while (result == 0) {
+            result = scanf(" %d", &task);
+            if (result == 0) {
+                printf("Invalid input. Please enter a number from the list.\n");
+                while (getchar() != '\n'); // consume invalid input
+            }
+        }
         switch (task)
         {
         case REVERSE:
@@ -385,9 +400,9 @@ void task1ReversePhrase() {
 void task2CheckPalindrome() {
     printf("Please insert the phrase length:\n");
     int n;
-    scanf("%d", &n);
+    n = readIntChecked("Invalid number. Please try again.");
     printf("Please insert the phrase to check:\n");
-    scanf(" ");
+    discardLineRec();
     if (task2CheckPalindromeImplementation(n))
         printf("The phrase is a palindrome.\n");
     else
@@ -416,7 +431,7 @@ void task4SolveZipBoard() {
     int row=0, col=0; // previously: int row, col;
     int highest=0;
     printf("Please enter the board size:\n");
-    scanf("%d", &size);
+    size = readIntChecked("Invalid number. Please try again.");
     if (size < 1 || size > ZIP_MAX_GRID_SIZE) {
         printf("Invalid board size.\n");
         return;
@@ -425,7 +440,7 @@ void task4SolveZipBoard() {
     printf("Please enter the grid:\n");
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
-            scanf("%d", &board[i][j]);
+            board[i][j] = readIntChecked("Invalid number. Please try again.");
             if (board[i][j] == 1) {
                 row = i;
                 col = j;
@@ -454,7 +469,7 @@ void task5SolveSudoku() {
     int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE] = {0};
     for (int i = 0; i < SUDOKU_GRID_SIZE; i++) {
         for (int j = 0; j < SUDOKU_GRID_SIZE; j++) {
-            scanf("%d", &board[i][j]);
+            board[i][j] = readIntChecked("Invalid number. Please try again.");
         }
     }
     if (task5SolveSudokuImplementation(board)) {
@@ -473,14 +488,14 @@ void task5SolveSudoku() {
 int readTerms(char terms[][LONGEST_TERM+1], int maxNumOfTerms, const char type[]) { // added const to type
     int termsCount;
     printf("Please insert number of %s:\n", type);
-    scanf("%d", &termsCount);
+    termsCount = readIntChecked("Invalid number. Please try again.");
     if(termsCount < 1 || termsCount > maxNumOfTerms) {
         termsCount = maxNumOfTerms;
     }
     printf("Please insert the list of %s:\n", type);
     for(int i=0;i<termsCount;i++){
         printf("%d. ",i+1);
-        scanf(" %[^\n]",terms[i]);
+        (void)scanf(" %[^\n]",terms[i]);
     }
     return termsCount;
 }
@@ -501,6 +516,22 @@ void printSudoku(int board[SUDOKU_GRID_SIZE][SUDOKU_GRID_SIZE]) {
         printf("\n");
         if ((i + 1) % SUDOKU_SUBGRID_SIZE == 0)
             printf("+-------+-------+-------+\n");
+    }
+}
+
+int readIntChecked(const char errorMessage[]) {
+    int value;
+    if (scanf("%d", &value) == 1) {
+        return value;
+    }
+    printf("%s\n", errorMessage);
+    discardLineRec();
+    return readIntChecked(errorMessage);
+}
+
+void discardLineRec() {
+    if (getchar() != '\n') {
+        discardLineRec();
     }
 }
 
